@@ -1,0 +1,29 @@
+# Human-readable name of the service
+name: treasury
+# Name of the service for usage in paths, usernames etc.: Should only consist of lowercase alphanumeric
+# characters, must be identical to the (URL) project name of the GitLab repo
+slug: treasury
+authors:
+  - olmeke <marius.fleischer@fau.de>
+
+install:
+  debian_packages:
+    - build-essential
+    - libncurses5
+  # These will be run on the Vulnbox after extracting "dist_root" (from the build) to the root file system,
+  # installing Debian packages and creating the service user
+  postinst_commands:
+    - install -o treasury -g treasury -m 700 -d "${DATA_DIR}/flags"
+    - systemctl enable treasury.socket
+  # Whether to insert a firewall rule not allowing the service user to establish outgoing network connections
+  # This should generally be enabled, except for services which need outgoing connections
+  prevent_outgoing_connections: True
+
+checker:
+  script_path: checker/checker.py
+  # Upper bound of how long the Checker Script takes to run (for a single team)
+  # Used for scheduling checks within a tick, executions taking longer *may* get terminated
+  max_duration: 60
+  debian_packages:
+    - python3-requests
+  pip_packages: []

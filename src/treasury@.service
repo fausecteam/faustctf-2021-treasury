@@ -1,0 +1,13 @@
+[Unit]
+Description=FAUST CTF treasury service
+
+[Service]
+ExecStart=-/usr/bin/stdbuf -o0 /srv/treasury/treasury
+WorkingDirectory=/srv/treasury
+StandardInput=socket
+StandardOutput=socket
+User=treasury
+LimitNPROC=100
+LimitCPU=60
+
+Restart=on-failure

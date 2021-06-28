@@ -1,0 +1,11 @@
+[Unit]
+Description=FAUST CTF treasury service
+
+[Socket]
+ListenStream=6789
+Accept=true
+NoDelay=true
+MaxConnections=120
+
+[Install]
+WantedBy=sockets.target
